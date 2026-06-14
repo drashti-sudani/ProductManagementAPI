@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: src/API/Dockerfile
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=CRNProductManagement;User Id=sa;Password=Your_password123;TrustServerCertificate=True;
+      - JwtSettings__Secret=3c9f8a2b6d4e1f7a9b2c3d4e5f6071829a0b1c2d3e4f5061728394a5b6c7d8e9
+    depends_on:
+      - db
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Your_password123"
+    ports:
+      - "1433:1433"
